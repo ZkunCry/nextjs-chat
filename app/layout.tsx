@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter as FontSans } from "next/font/google";
+import { cn } from "@/lib/utils";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
 
-const inter = Inter({ subsets: ["latin"] });
-
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 export const metadata: Metadata = {
   title: "Next Chat",
   description: "Created by eugene",
@@ -16,8 +20,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-slate-900 dark:text-white text-black">
-        <div className="min-h-dvh h-1">{children}</div>
+      <body
+        className={cn(
+          "dark:bg-background bg-background dark:text-white text-black antialiased",
+          fontSans.variable
+        )}
+      >
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <div className="flex flex-col min-h-dvh h-1 w-full">{children}</div>
+        </ThemeProvider>
       </body>
     </html>
   );
