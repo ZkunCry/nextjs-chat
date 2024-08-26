@@ -1,7 +1,9 @@
 import type { NextRequest } from "next/server";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import bcrypt from "bcrypt";
 import { hashPassword } from "@/lib/password";
+import prisma from "@/lib/prisma";
+import { generateAccessToken, generateRefreshToken } from "@/lib/token";
 export enum Role {
   USER,
   ADMIN,
@@ -10,9 +12,9 @@ export enum Role {
 export async function POST(req: NextRequest) {
   try {
     const reqBody = await req.json();
-    console.log("req", reqBody);
+
     if (!reqBody) return NextResponse.json({ status: 400 });
-    const { name, email, password } = reqBody;
+    const { username, email, password } = reqBody;
 
     const user = await prisma?.user.findFirst({
       where: {
@@ -28,19 +30,34 @@ export async function POST(req: NextRequest) {
 
     const newUser = await prisma?.user.create({
       data: {
-        username: name,
+        username: username,
         email: email,
         createdAt: new Date(),
         password_hash: hash,
         password_salt: salt,
       },
     });
-    return NextResponse.json({
+    const accessToken = generateAccessToken(newUser.id);
+    const refreshToken = generateRefreshToken(newUser.id);
+
+    const { password_hash, password_salt, ...resUser } = newUser;
+    const response = NextResponse.json({
       message: "User created is successfully",
       success: true,
-      newUser,
+      ...resUser,
+      accessToken,
     });
+    response.cookies.set("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      expires: new Date(
+        Date.now() +
+          86400000 * parseInt(process.env["REFRESH_LIFETIME"] || "365")
+      ),
+    });
+    return response;
   } catch (error: any) {
+    console.log(error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

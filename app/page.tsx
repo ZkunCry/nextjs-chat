@@ -29,7 +29,7 @@ export default function Home() {
                     "border rounded-lg",
                     navigationMenuTriggerStyle()
                   )}
-                  href={"/"}
+                  href={"/signup"}
                 >
                   Войти
                 </NavigationMenuLink>

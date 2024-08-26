@@ -12,9 +12,8 @@ datasource db {
 model User {
   id        Int     @id @default(autoincrement()) @map("id")
   username String   @db.VarChar(255) @unique
-
   email     String   @db.VarChar(255) @unique
-  avatar    String? @db.Text
+  avatar     String? @db.Text
   role       Role     @default(USER)
   createdAt DateTime   @db.Timestamptz(6)
   password_hash      String               @db.VarChar(255)

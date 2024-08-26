@@ -10,5 +10,5 @@ export async function signup(credentials: signUp) {
     data: credentials,
     method: "POST",
   });
-  if (result.status === 200) console.log("fdsfsd");
+  return result;
 }

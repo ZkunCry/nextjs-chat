@@ -8,10 +8,7 @@ export const axiosInstance = axios.create({
   },
 });
 
-export const fetchData = async (
-  url: string,
-  options = {}
-): Promise<AxiosResponse> => {
+export const fetchData = async (url: string, options = {}): Promise<any> => {
   try {
     const response = await axiosInstance(url, options);
     return response.data;

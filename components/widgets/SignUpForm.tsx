@@ -1,5 +1,4 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -7,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -15,6 +13,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signup } from "@/services/auth/signup";
+import Link from "next/link";
+import { useToast } from "@/components/ui/use-toast";
+
+import { useRouter } from "next/navigation";
 const formSchema = z
   .object({
     username: z.string().min(2, {
@@ -34,6 +36,7 @@ const formSchema = z
   });
 
 export default function SignUpForm() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,11 +46,17 @@ export default function SignUpForm() {
       repeat_password: "",
     },
   });
-
+  const { toast } = useToast();
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const { repeat_password, ...result } = values;
-    console.log(result);
-    signup(result);
+    try {
+      const data = await signup(result);
+      toast({ description: "You have successfully registered an account." });
+      router.push("/");
+    } catch (error) {
+      if (error instanceof Error)
+        toast({ title: "Something went wrong.", description: error.message });
+    }
   };
   return (
     <Form {...form}>
@@ -108,6 +117,9 @@ export default function SignUpForm() {
             </FormItem>
           )}
         />
+        <Link className=" block text-center text-sm" href={"/signin"}>
+          Already registered? Login to your account
+        </Link>
         <Button className="w-full" type="submit">
           Submit
         </Button>
