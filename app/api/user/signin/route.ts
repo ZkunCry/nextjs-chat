@@ -1,6 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { comparePassword, hashPassword } from "@/lib/password";
+import { comparePassword } from "@/lib/password";
 import prisma from "@/lib/prisma";
 import { generateAccessToken, generateRefreshToken } from "@/lib/token";
 import { cookies } from "next/headers";
@@ -37,12 +37,13 @@ export async function POST(req: NextRequest) {
       ),
     });
     const { password_hash, password_salt, ...resUser } = user;
-    return NextResponse.json({
-      message: "User created is successfully",
-      success: true,
-      resUser,
-      accessToken,
-    });
+    return NextResponse.json(
+      {
+        resUser,
+        accessToken,
+      },
+      { status: 200, statusText: "User created is successful" }
+    );
   } catch (error: any) {
     console.log(error);
     return NextResponse.json({ error: error.message }, { status: 500 });

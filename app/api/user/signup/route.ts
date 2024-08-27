@@ -41,12 +41,13 @@ export async function POST(req: NextRequest) {
     const refreshToken = generateRefreshToken(newUser.id);
 
     const { password_hash, password_salt, ...resUser } = newUser;
-    const response = NextResponse.json({
-      message: "User created is successfully",
-      success: true,
-      ...resUser,
-      accessToken,
-    });
+    const response = NextResponse.json(
+      {
+        ...resUser,
+        accessToken,
+      },
+      { status: 200, statusText: "User created is successfully" }
+    );
     response.cookies.set("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true,
