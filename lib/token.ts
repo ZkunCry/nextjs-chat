@@ -16,7 +16,7 @@ export function authAccessToken(req: NextRequest) {
   if (!process.env["ACCESS_TOKEN"]) throw "No secret key for access token";
   const authHeader = req.headers.get("authorization");
   const token = authHeader && authHeader.split(" ")[1];
-  if (token == null) return false;
+  if (token === null) return false;
 
   const tokenID = jwt.verify(token, process.env["ACCESS_TOKEN"]);
 
