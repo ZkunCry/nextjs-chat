@@ -17,6 +17,7 @@ import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
 
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/store/auth";
 const formSchema = z
   .object({
     username: z.string().min(2, {
@@ -46,6 +47,7 @@ export default function SignUpForm() {
       repeat_password: "",
     },
   });
+  const auth = useAuth((state) => state.accessToken);
   const { toast } = useToast();
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const { repeat_password, ...result } = values;

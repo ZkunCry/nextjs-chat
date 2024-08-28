@@ -13,6 +13,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Link from "next/link";
+import { useAuth } from "@/store/auth";
+import { useEffect } from "react";
 const formSchema = z.object({
   email: z.string().min(2, {
     message: "Email must be at leat 2 characters",
@@ -30,7 +32,10 @@ export default function SignInForm() {
       password: "",
     },
   });
-
+  const setAccessToken = useAuth((state) => state.setAccessToken);
+  useEffect(() => {
+    setAccessToken("fffff");
+  }, []);
   const onSubmit = async (values: z.infer<typeof formSchema>) => {};
   return (
     <Form {...form}>
