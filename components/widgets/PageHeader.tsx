@@ -1,16 +1,10 @@
-import {
-  NavigationMenu,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuItem,
-} from "@/components/ui/navigation-menu";
 import Header from "@/components/widgets/Header";
-import ModeToggle from "@/components/widgets/ModeToggle";
-import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import NavigationWrapper from "./NavigationWrapper";
+const navItems = [{ label: "SignIn", href: "/signin" }];
 
-const PageHeader = () => {
+const PageHeader = async () => {
+  
   return (
     <Header>
       <div className="flex container justify-between items-center py-4">
@@ -20,25 +14,7 @@ const PageHeader = () => {
         >
           NextJsPosts
         </Link>
-        <NavigationMenu>
-          <NavigationMenuList className="gap-4">
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                className={cn(
-                  "border rounded-lg",
-                  navigationMenuTriggerStyle()
-                )}
-                href={"/signup"}
-              >
-                Войти
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <ModeToggle />
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
+        <NavigationWrapper navLinks={navItems} />
       </div>
     </Header>
   );

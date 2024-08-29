@@ -9,38 +9,12 @@ import ModeToggle from "@/components/widgets/ModeToggle";
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import PageHeader from "@/components/widgets/PageHeader";
 
 export default function Home() {
   return (
     <div>
-      <Header>
-        <div className="flex container justify-between items-center py-4">
-          <Link
-            href={"/"}
-            className="font-bold text-xl dark:text-white py-2 px-4 border rounded-lg"
-          >
-            NextJsPosts
-          </Link>
-          <NavigationMenu>
-            <NavigationMenuList className="gap-4">
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  className={cn(
-                    "border rounded-lg",
-                    navigationMenuTriggerStyle()
-                  )}
-                  href={"/signup"}
-                >
-                  Войти
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <ModeToggle />
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
-      </Header>
+      <PageHeader />
     </div>
   );
 }

@@ -4,11 +4,7 @@ import { NextResponse } from "next/server";
 import { hashPassword } from "@/lib/password";
 import prisma from "@/lib/prisma";
 import { generateAccessToken, generateRefreshToken } from "@/lib/token";
-export enum Role {
-  USER,
-  ADMIN,
-}
-
+import { Role } from "@prisma/client";
 export async function POST(req: NextRequest) {
   try {
     const reqBody = await req.json();
@@ -41,6 +37,7 @@ export async function POST(req: NextRequest) {
     const refreshToken = generateRefreshToken(newUser.id);
 
     const { password_hash, password_salt, ...resUser } = newUser;
+
     const response = NextResponse.json(
       {
         ...resUser,

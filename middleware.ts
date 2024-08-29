@@ -8,6 +8,7 @@ export default function middleware(request: NextRequest) {
   console.log(path);
   const isPublicPath = path === "/signin" || path === "/signup";
   if (isPublicPath && request.headers.get("authorization") === null) {
+    console.log(path);
     return NextResponse.next();
   } else {
     const refreshToken = request.cookies.get("refreshToken")?.value || "";

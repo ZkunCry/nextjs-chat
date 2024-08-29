@@ -13,30 +13,51 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Link from "next/link";
+import { useCustomQuery } from "@/hooks/useCustomQuery";
+import { axiosInstance } from "@/services/axios";
+import { UserAuth } from "@/types/type";
+import { signInSchema } from "@/schemas/authschema";
+import { useUser } from "@/store/user";
 import { useAuth } from "@/store/auth";
-import { useEffect } from "react";
-const formSchema = z.object({
-  email: z.string().min(2, {
-    message: "Email must be at leat 2 characters",
-  }),
-  password: z.string().min(8, {
-    message: "Password must be at leat 8 characters",
-  }),
-});
-
+import { useRouter } from "next/navigation";
+import { useToast } from "../ui/use-toast";
 export default function SignInForm() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
-  const setAccessToken = useAuth((state) => state.setAccessToken);
-  useEffect(() => {
-    setAccessToken("fffff");
-  }, []);
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {};
+  const { onQuery, isLoading, isSuccess } = useCustomQuery<
+    UserAuth,
+    z.infer<typeof signInSchema>
+  >({
+    query: async (credentials) => {
+      const result = await axiosInstance.post<UserAuth>(
+        "/api/user/signin",
+        credentials
+      );
+      return result.data;
+    },
+  });
+
+  const { setUser } = useUser();
+  const { setAccessToken } = useAuth();
+  const { toast } = useToast();
+  const router = useRouter();
+  const onSubmit = async (values: z.infer<typeof signInSchema>) => {
+    try {
+      const response = await onQuery(values);
+      if (response !== null) {
+        const { accessToken, ...resUser } = response;
+        setUser(resUser);
+        setAccessToken(accessToken);
+        toast({ description: "You have successfully login an account." });
+        router.push("/");
+      }
+    } catch (error) {}
+  };
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4  ">

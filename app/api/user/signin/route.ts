@@ -4,10 +4,6 @@ import { comparePassword } from "@/lib/password";
 import prisma from "@/lib/prisma";
 import { generateAccessToken, generateRefreshToken } from "@/lib/token";
 import { cookies } from "next/headers";
-export enum Role {
-  USER,
-  ADMIN,
-}
 
 export async function POST(req: NextRequest) {
   try {

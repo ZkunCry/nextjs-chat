@@ -8,12 +8,4 @@ export const axiosInstance = axios.create({
   },
 });
 
-export const fetchData = async (url: string, options = {}): Promise<any> => {
-  try {
-    const response: AxiosResponse = await axiosInstance(url, options);
-    return response.data;
-  } catch (error) {
-    console.error("Error retrieving data:", error);
-    throw new Error("Could not get data");
-  }
-};
+
