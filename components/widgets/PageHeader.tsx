@@ -1,10 +1,8 @@
 import Header from "@/components/widgets/Header";
 import Link from "next/link";
 import NavigationWrapper from "./NavigationWrapper";
-const navItems = [{ label: "SignIn", href: "/signin" }];
 
 const PageHeader = async () => {
-  
   return (
     <Header>
       <div className="flex container justify-between items-center py-4">
@@ -14,7 +12,7 @@ const PageHeader = async () => {
         >
           NextJsPosts
         </Link>
-        <NavigationWrapper navLinks={navItems} />
+        <NavigationWrapper />
       </div>
     </Header>
   );

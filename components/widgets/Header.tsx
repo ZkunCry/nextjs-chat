@@ -6,7 +6,7 @@ const Header = ({
   ...props
 }: React.HtmlHTMLAttributes<HTMLDivElement>) => {
   return (
-    <header className={cn("w-full", className)} {...props}>
+    <header className={cn("w-full border-b", className)} {...props}>
       {children}
     </header>
   );

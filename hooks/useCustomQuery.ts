@@ -30,7 +30,7 @@ export const useCustomQuery = <T, Q>({
       return result;
     } catch (error) {
       if (error instanceof AxiosError) setError(error.message);
-      return null;
+      throw error;
     }
   };
   return { data, isLoading, isSuccess, error, onQuery };

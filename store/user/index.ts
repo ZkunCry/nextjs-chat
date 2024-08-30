@@ -12,6 +12,7 @@ export const useUser = create<UserStore>()((set) => ({
   user: null,
   setUser: (credentials) => {
     set({ user: credentials });
+    console.log(credentials);
     localStorage.setItem("id", JSON.stringify(credentials.id));
   },
 }));

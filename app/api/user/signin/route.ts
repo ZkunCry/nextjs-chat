@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     const { password_hash, password_salt, ...resUser } = user;
     return NextResponse.json(
       {
-        resUser,
+        ...resUser,
         accessToken,
       },
       { status: 200, statusText: "User created is successful" }

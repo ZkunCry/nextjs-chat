@@ -1,5 +1,4 @@
 import type { User } from "@prisma/client";
-import { fetchData } from "../axios";
 type signUp = {
   username: string;
   email: string;

@@ -16,7 +16,7 @@ export async function GET(
     if (!user)
       return NextResponse.json({ error: "User not found" }, { status: 400 });
     const { password_hash, password_salt, ...resUser } = user;
-    return NextResponse.json({ ...user });
+    return NextResponse.json({ ...resUser });
   } catch (error) {
     if (error instanceof Error)
       return NextResponse.json({ error: error.message }, { status: 500 });

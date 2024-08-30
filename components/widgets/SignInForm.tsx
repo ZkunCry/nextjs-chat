@@ -21,6 +21,8 @@ import { useUser } from "@/store/user";
 import { useAuth } from "@/store/auth";
 import { useRouter } from "next/navigation";
 import { useToast } from "../ui/use-toast";
+import { useStoreWithEqualityFn } from "zustand/traditional";
+import { AxiosError } from "axios";
 export default function SignInForm() {
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -34,16 +36,22 @@ export default function SignInForm() {
     z.infer<typeof signInSchema>
   >({
     query: async (credentials) => {
-      const result = await axiosInstance.post<UserAuth>(
-        "/api/user/signin",
-        credentials
-      );
-      return result.data;
+      try {
+        const result = await axiosInstance.post<UserAuth>(
+          "/api/user/signin",
+          credentials
+        );
+        return result.data;
+      } catch (error) {
+        throw error;
+      }
     },
   });
-
-  const { setUser } = useUser();
-  const { setAccessToken } = useAuth();
+  const setUser = useStoreWithEqualityFn(useUser, (state) => state.setUser);
+  const setAccessToken = useStoreWithEqualityFn(
+    useAuth,
+    (state) => state.setAccessToken
+  );
   const { toast } = useToast();
   const router = useRouter();
   const onSubmit = async (values: z.infer<typeof signInSchema>) => {
@@ -56,7 +64,13 @@ export default function SignInForm() {
         toast({ description: "You have successfully login an account." });
         router.push("/");
       }
-    } catch (error) {}
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast({
+          description: `Oops! Something went wrong: ${error.response?.data?.error}`,
+        });
+      }
+    }
   };
   return (
     <Form {...form}>

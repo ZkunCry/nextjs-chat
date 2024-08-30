@@ -24,10 +24,24 @@ import { LoaderCircle, LoaderIcon } from "lucide-react";
 import { useUser } from "@/store/user";
 import { useAuth } from "@/store/auth";
 import { shallow } from "zustand/shallow";
+import { useStoreWithEqualityFn } from "zustand/traditional";
 export default function SignUpForm() {
   const router = useRouter();
-  const { setUser } = useUser();
-  const { setAccessToken, accessToken } = useAuth();
+
+  const setUser = useStoreWithEqualityFn(
+    useUser,
+    (state) => state.setUser,
+    shallow
+  );
+  const { setAccessToken, accessToken } = useStoreWithEqualityFn(
+    useAuth,
+    (state) => ({
+      setAccessToken: state.setAccessToken,
+      accessToken: state.accessToken,
+    }),
+    shallow
+  );
+
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
