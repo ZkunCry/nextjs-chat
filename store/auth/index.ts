@@ -1,5 +1,6 @@
 import { axiosInstance } from "@/services/axios";
 import type { AxiosError } from "axios";
+import { cookies } from "next/headers";
 import { create } from "zustand";
 import {
   createJSONStorage,
@@ -16,6 +17,7 @@ export type Auth = {
   setHydrate: (state: any) => void;
   error: any;
 };
+
 const storage: StateStorage = {
   getItem: async (name: string) => {
     console.log(name, "has been retrieved");
@@ -61,32 +63,4 @@ export const useAuth = create<Auth>()(
       },
     }
   )
-);
-axiosInstance.interceptors.request.use((config) => {
-  const accessToken = useAuth.getState().accessToken;
-  if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
-  return config;
-});
-
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  async (error: AxiosError) => {
-    const originalRequest = error.config;
-
-    if (error.response?.status === 401) {
-      try {
-        // Запрос на обновление токена
-        const refreshResponse = await axiosInstance.post("/api/auth/refresh");
-        const newAccessToken = refreshResponse.data.accessToken;
-        useAuth.getState().setAccessToken(newAccessToken);
-
-        return axiosInstance.request(originalRequest!);
-      } catch (refreshError) {
-        console.error("Ошибка обновления токена:", refreshError);
-        useAuth.getState().setError(refreshError);
-        throw refreshError;
-      }
-    }
-    return Promise.reject(error);
-  }
 );

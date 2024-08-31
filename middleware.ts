@@ -43,12 +43,5 @@ export default function middleware(request: NextRequest) {
 }
 // Limit the middleware to paths starting with `/api/`
 export const config = {
-  matcher: [
-    "/signin",
-    "/signup",
-    "/logout",
-    "/user/:id",
-    "/profile/:id",
-    "/profile",
-  ],
+  matcher: ["/signin", "/signup", "/logout", "/user/:id*", "/user"],
 };

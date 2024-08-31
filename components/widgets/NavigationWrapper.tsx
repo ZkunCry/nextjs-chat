@@ -14,7 +14,7 @@ import React, { useEffect } from "react";
 import { useStore } from "zustand";
 import { useState } from "react";
 import { Skeleton } from "../ui/skeleton";
-type NavLink = {
+export type NavLink = {
   label: string;
   href: string;
 };
