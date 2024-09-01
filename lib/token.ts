@@ -1,4 +1,5 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { jwtVerify } from "jose";
 import type { NextRequest } from "next/server";
 export function generateAccessToken(id: number) {
   if (!process.env["ACCESS_TOKEN"]) throw "No secret key for access token";
@@ -12,15 +13,14 @@ export function generateRefreshToken(id: number) {
     expiresIn: "30d",
   });
 }
-export function authAccessToken(req: NextRequest) {
+export async function authAccessToken(req: NextRequest) {
   if (!process.env["ACCESS_TOKEN"]) throw "No secret key for access token";
-  const authHeader = req.headers.get("authorization");
-  const token = authHeader && authHeader.split(" ")[1];
-  if (token === null) return false;
-
-  const tokenID = jwt.verify(token, process.env["ACCESS_TOKEN"]);
-
-  if (!tokenID) return false;
-
-  return (tokenID as JwtPayload)["id"];
+  const token = req.cookies.get("accessToken")?.value;
+  if (!token) return false;
+  const { payload } = await jwtVerify(
+    token!,
+    new TextEncoder().encode(process.env["ACCESS_TOKEN"])
+  );
+  console.log(payload);
+  return true;
 }

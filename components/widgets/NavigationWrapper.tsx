@@ -1,4 +1,3 @@
-"use client";
 import {
   NavigationMenu,
   NavigationMenuLink,
@@ -8,12 +7,9 @@ import {
 } from "@/components/ui/navigation-menu";
 import ModeToggle from "@/components/widgets/ModeToggle";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/store/auth";
 import { CircleUser } from "lucide-react";
-import React, { useEffect } from "react";
-import { useStore } from "zustand";
-import { useState } from "react";
-import { Skeleton } from "../ui/skeleton";
+import { cookies } from "next/headers";
+import { getIdFromCookie } from "@/services/cookie/cookie";
 export type NavLink = {
   label: string;
   href: string;
@@ -22,11 +18,8 @@ type Props = {
   navLinks?: NavLink[];
 };
 const NavigationWrapper = ({ navLinks = [] }: Props) => {
-  const { accessToken, isHydrate } = useStore(useAuth, (state) => ({
-    accessToken: state.accessToken,
-    isHydrate: state.isHydrate,
-  }));
-
+  const id = getIdFromCookie();
+  const isLogged = cookies().get("loggedIn")?.value;
   return (
     <NavigationMenu>
       <NavigationMenuList className="gap-4">
@@ -45,16 +38,14 @@ const NavigationWrapper = ({ navLinks = [] }: Props) => {
             </NavigationMenuItem>
           );
         })}
-        {!accessToken && !isHydrate ? (
-          <Skeleton className="w-[36px] h-[36px]" />
-        ) : accessToken ? (
+        {isLogged ? (
           <NavigationMenuItem>
             <NavigationMenuLink
               className={cn(
                 "border rounded-lg !p-2",
                 navigationMenuTriggerStyle()
               )}
-              href={`/profile/${localStorage.getItem("id")}`}
+              href={`/profile/${id}`}
             >
               <CircleUser />
             </NavigationMenuLink>

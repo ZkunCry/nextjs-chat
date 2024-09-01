@@ -24,6 +24,10 @@ export async function POST(req: NextRequest) {
     const accessToken = generateAccessToken(user.id);
     const refreshToken = generateRefreshToken(user.id);
 
+    cookies().set("accessToken", accessToken, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 10 * 60 * 60 * 1000),
+    });
     cookies().set("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true,
@@ -32,6 +36,7 @@ export async function POST(req: NextRequest) {
           86400000 * parseInt(process.env["REFRESH_LIFETIME"] || "365")
       ),
     });
+    cookies().set("loggedIn", "true");
     const { password_hash, password_salt, ...resUser } = user;
     return NextResponse.json(
       {

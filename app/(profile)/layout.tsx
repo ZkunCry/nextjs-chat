@@ -11,7 +11,6 @@ import SideBar from "@/components/widgets/SideBar";
 const navLinksSideBar = [
   { href: "/profile", label: "Profile" },
   { href: "/account", label: "Account" },
-  { href: "/appearance", label: "appearance" },
 ];
 export default function ProfileLayout({
   children,

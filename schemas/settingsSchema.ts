@@ -5,3 +5,7 @@ export const profileSchema = z.object({
   bio: z.string(),
   urls: z.string(),
 });
+export const accountSchema = z.object({
+  name: z.string(),
+  dateOfBirth: z.string(),
+});

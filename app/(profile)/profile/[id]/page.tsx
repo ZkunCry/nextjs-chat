@@ -1,4 +1,5 @@
 import ProfileForm from "@/components/widgets/ProfileForm";
+import ProfileHeader from "@/components/widgets/ProfileHeader";
 import { axiosInstance } from "@/services/axios";
 import type User from "@/types/type";
 
@@ -11,6 +12,10 @@ export default async function ProfilePage({ params: { id } }: Props) {
 
   return (
     <div className="flex-1 max-w-2xl">
+      <ProfileHeader
+        title="Profile"
+        content="This is how others will see you on the site"
+      />
       <ProfileForm user={user} />
     </div>
   );

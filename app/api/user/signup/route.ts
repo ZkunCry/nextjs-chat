@@ -41,7 +41,6 @@ export async function POST(req: NextRequest) {
     const response = NextResponse.json(
       {
         ...resUser,
-        accessToken,
       },
       { status: 200, statusText: "User created is successfully" }
     );
@@ -53,6 +52,11 @@ export async function POST(req: NextRequest) {
           86400000 * parseInt(process.env["REFRESH_LIFETIME"] || "365")
       ),
     });
+    response.cookies.set("accessToken", accessToken, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 10 * 60 * 60 * 1000),
+    });
+    response.cookies.set("loggedIn", "true");
     return response;
   } catch (error: any) {
     console.log(error);

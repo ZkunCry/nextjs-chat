@@ -2,6 +2,8 @@ import Header from "@/components/widgets/Header";
 import ModeToggle from "@/components/widgets/ModeToggle";
 import PageHeader from "@/components/widgets/PageHeader";
 import Link from "next/link";
+import { cookies, headers } from "next/headers";
+
 export default function AuthLayout({
   children,
 }: Readonly<{
