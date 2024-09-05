@@ -28,6 +28,7 @@ const config = {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
+
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -64,8 +65,14 @@ const config = {
           to: { height: "0" },
         },
       },
+      content: {
+        none: "",
+      },
       transitionProperty: {
         dark: "background-color, border-color, text-decoration-color, fill, stroke",
+      },
+      height: {
+        news: "calc(100dvh - 124px)",
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
