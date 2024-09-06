@@ -9,7 +9,7 @@ type Props = {
 export default async function Account({ params: { id } }: Props) {
   const { data: user } = await axiosInstance.get<User>(`/api/user/${id}`);
   return (
-    <div className="flex-1 max-w-2xl">
+    <div className="flex-[2]">
       <ProfileHeader
         title="Account"
         content="Update your account settings. Set your preferred language and timezone."

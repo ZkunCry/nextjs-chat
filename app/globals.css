@@ -82,6 +82,3 @@ body {
   @apply bg-background text-foreground;
   font-feature-settings: "rlig" 1, "calt" 1;
 }
-.test {
-  @apply after:content-none after:absolute after:w-full after:h-1 after:bg-red-600 after:bottom-0;
-}

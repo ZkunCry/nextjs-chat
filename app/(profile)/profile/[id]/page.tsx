@@ -11,7 +11,7 @@ export default async function ProfilePage({ params: { id } }: Props) {
   const { data: user } = await axiosInstance.get<User>(`/api/user/${id}`);
 
   return (
-    <div className="flex-1 max-w-2xl">
+    <div className="flex-[3] ">
       <ProfileHeader
         title="Profile"
         content="This is how others will see you on the site"

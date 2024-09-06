@@ -1,13 +1,5 @@
-import {
-  NavigationMenu,
-  NavigationMenuLink,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-import { cn } from "@/lib/utils";
-
 import PageHeader from "@/components/widgets/PageHeader";
-import SideBar from "@/components/widgets/SideBar";
-
+import AccountSidebar from "@/components/widgets/AccountSidebar";
 const navLinksSideBar = [
   { href: "/profile", label: "Profile" },
   { href: "/account", label: "Account" },
@@ -29,7 +21,7 @@ export default function ProfileLayout({
             </p>
           </div>
           <div className="flex flex-col lg:flex-row mt-[16px] gap-6">
-            <SideBar navLinks={navLinksSideBar} />
+            <AccountSidebar className="flex-1" navLinks={navLinksSideBar} />
             {children}
           </div>
         </div>

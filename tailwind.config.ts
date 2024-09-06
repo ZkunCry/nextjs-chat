@@ -72,7 +72,7 @@ const config = {
         dark: "background-color, border-color, text-decoration-color, fill, stroke",
       },
       height: {
-        news: "calc(100dvh - 124px)",
+        news: "calc(100dvh - 170px)",
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
