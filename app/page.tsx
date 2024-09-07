@@ -1,18 +1,14 @@
 import NavigationNews from "@/components/widgets/NavigationNews";
 import PageHeader from "@/components/widgets/PageHeader";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
-  CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
 import { Separator } from "@radix-ui/react-separator";
 import Link from "next/link";
-import SideBar from "@/components/widgets/SideBar";
 import FilterSidebar from "@/components/widgets/FilterSidebar";
 const navLinks = [
   { href: "/", label: "All" },
@@ -33,13 +29,15 @@ export default function Home() {
               <FilterSidebar />
               <div className="grid  h-news overflow-y-auto sm:grid-cols-2  grid-cols-1 justify-items-center items-start gap-5">
                 <Card className="w-full max-w-md rounded-lg  shadow-lg transition-all hover:shadow-xl">
-                  <Link href="#" className="block" prefetch={false}>
-                    <img
-                      src="https://random.imagecdn.app/500/150"
-                      alt="News Thumbnail"
-                      width={600}
-                      className="w-full  aspect-[2/1] object-cover"
-                    />
+                  <Link href="/" className="block" prefetch={false}>
+                    <div className="relative  h-[300px]">
+                      <Image
+                        src="https://random.imagecdn.app/500/150"
+                        alt="News Thumbnail"
+                        fill
+                        className="w-full rounded-t aspect-[2/1] object-cover"
+                      />
+                    </div>
                     <CardContent className="p-6 space-y-3">
                       <CardTitle className="text-lg font-semibold transition-colors group-hover:text-primary">
                         Breaking News: Tech Giant Announces Major Acquisition
@@ -51,14 +49,11 @@ export default function Home() {
                         predict it will have significant implications for the
                         market.
                       </CardDescription>
-                      <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                        <Link
-                          href="#"
-                          className="hover:underline"
-                          prefetch={false}
-                        >
-                          Read More
-                        </Link>
+                      <div className="flex items-center justify-end gap-2 text-sm font-medium text-muted-foreground">
+                        <div className="flex gap-1">
+                          <div className="w-[20px] h-[20px] bg-gray-600 rounded-full"></div>
+                          <span>Eugene</span>
+                        </div>
                         <Separator
                           orientation="vertical"
                           className="h-4 !w-[2px] bg-black dark:bg-accent dark:opacity-100 opacity-10 "
@@ -69,13 +64,15 @@ export default function Home() {
                   </Link>
                 </Card>
                 <Card className="w-ful  max-w-md rounded-lg  shadow-lg transition-all hover:shadow-xl">
-                  <Link href="#" className="block" prefetch={false}>
-                    <img
-                      src="https://random.imagecdn.app/500/150"
-                      alt="News Thumbnail"
-                      width={600}
-                      className="w-full  aspect-[2/1] object-cover"
-                    />
+                  <Link href="/" className="block" prefetch={false}>
+                    <div className="relative  h-[300px]">
+                      <Image
+                        src="https://random.imagecdn.app/500/150"
+                        alt="News Thumbnail"
+                        fill
+                        className="w-full rounded-t aspect-[2/1] object-cover"
+                      />
+                    </div>
                     <CardContent className="p-6 space-y-3">
                       <CardTitle className="text-lg font-semibold transition-colors group-hover:text-primary">
                         Breaking News: Tech Giant Announces Major Acquisition
@@ -87,14 +84,11 @@ export default function Home() {
                         predict it will have significant implications for the
                         market.
                       </CardDescription>
-                      <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                        <Link
-                          href="#"
-                          className="hover:underline"
-                          prefetch={false}
-                        >
-                          Read More
-                        </Link>
+                      <div className="flex items-center justify-end gap-2 text-sm font-medium text-muted-foreground">
+                        <div className="flex gap-1">
+                          <div className="w-[20px] h-[20px] bg-gray-600 rounded-full"></div>
+                          <span>Eugene</span>
+                        </div>
                         <Separator
                           orientation="vertical"
                           className="h-4 !w-[2px] bg-black dark:bg-accent dark:opacity-100 opacity-10 "
@@ -105,13 +99,15 @@ export default function Home() {
                   </Link>
                 </Card>
                 <Card className="w-full  max-w-md rounded-lg shadow-lg transition-all hover:shadow-xl">
-                  <Link href="#" className="block" prefetch={false}>
-                    <img
-                      src="https://random.imagecdn.app/500/150"
-                      alt="News Thumbnail"
-                      width={600}
-                      className="w-full  aspect-[2/1] object-cover"
-                    />
+                  <Link href="/" className="block" prefetch={false}>
+                    <div className="relative   h-[300px]">
+                      <Image
+                        src="https://random.imagecdn.app/500/150"
+                        alt="News Thumbnail"
+                        fill
+                        className="w-full rounded-t aspect-[2/1] object-cover"
+                      />
+                    </div>
                     <CardContent className="p-6 space-y-3">
                       <CardTitle className="text-lg font-semibold transition-colors group-hover:text-primary">
                         Breaking News: Tech Giant Announces Major Acquisition
@@ -123,14 +119,11 @@ export default function Home() {
                         predict it will have significant implications for the
                         market.
                       </CardDescription>
-                      <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-                        <Link
-                          href="#"
-                          className="hover:underline"
-                          prefetch={false}
-                        >
-                          Read More
-                        </Link>
+                      <div className="flex items-center justify-end gap-2 text-sm font-medium text-muted-foreground">
+                        <div className="flex gap-1">
+                          <div className="w-[20px] h-[20px] bg-gray-600 rounded-full"></div>
+                          <span>Eugene</span>
+                        </div>
                         <Separator
                           orientation="vertical"
                           className="h-4 !w-[2px] bg-black dark:bg-accent dark:opacity-100 opacity-10 "

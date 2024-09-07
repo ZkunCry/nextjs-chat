@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import type { SelectRangeEventHandler } from "react-day-picker";
+
 import {
   Popover,
   PopoverContent,
@@ -17,35 +18,40 @@ import {
 type Props = {
   className?: string;
   selected: DateRange | undefined;
-  onSelect: () => void;
+  disabled?: boolean;
+  onSelect: (range: DateRange | undefined) => void;
 };
-export function DatePickerWithRange({ className, selected, onSelect }: Props) {
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(),
-    to: new Date(),
-  });
-
+export function DatePickerWithRange({
+  className,
+  selected,
+  onSelect,
+  disabled,
+}: Props) {
+  const handleSelect: SelectRangeEventHandler = (range) => {
+    onSelect(range);
+  };
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover>
         <PopoverTrigger asChild>
           <Button
+            disabled={disabled}
             id="date"
             variant={"outline"}
             className={cn(
               "w-[300px] justify-start text-left font-normal",
-              !date && "text-muted-foreground"
+              !selected && "text-muted-foreground"
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {date?.from ? (
-              date.to ? (
+            {selected?.from ? (
+              selected.to ? (
                 <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")}
+                  {format(selected.from, "LLL dd, y")} -{" "}
+                  {format(selected.to, "LLL dd, y")}
                 </>
               ) : (
-                format(date.from, "LLL dd, y")
+                format(selected.from, "LLL dd, y")
               )
             ) : (
               <span>Pick a date</span>
@@ -57,7 +63,8 @@ export function DatePickerWithRange({ className, selected, onSelect }: Props) {
             initialFocus
             mode="range"
             selected={selected}
-            onSelect={onSelect}
+            onSelect={handleSelect}
+            numberOfMonths={2}
           />
         </PopoverContent>
       </Popover>

@@ -20,7 +20,7 @@ const NavigationNews = ({ navLinks = [] }: Props) => {
   return (
     <NavigationMenu className="w-full flex-1 mt-[16px] !max-w-[100%]">
       <div className="w-full overflow-hidden">
-        <NavigationMenuList className="gap-5 overflow-x-auto pb-[10px]  !justify-between">
+        <NavigationMenuList className="gap-5 overflow-x-auto pb-[10px]  !justify-evenly">
           {navLinks.length
             ? navLinks.map((item, index) => {
                 console.log(item.href === pathname);

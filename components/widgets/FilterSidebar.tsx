@@ -1,10 +1,9 @@
 "use client";
-import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { addDays, format } from "date-fns";
 import {
   Accordion,
   AccordionContent,
@@ -24,12 +23,8 @@ import SideBar from "./SideBar";
 import { Checkbox } from "@/components/ui/checkbox";
 import { filterSchema } from "@/schemas/filterSchema";
 import { DatePickerWithRange } from "./DatePickerRange";
+
 const items = [
-  { id: "healthy", label: "Healthy" },
-  { id: "fast", label: "Fast" },
-  { id: "vegan", label: "Vegan" },
-] as const;
-const dateItems = [
   { id: "healthy", label: "Healthy" },
   { id: "fast", label: "Fast" },
   { id: "vegan", label: "Vegan" },
@@ -43,31 +38,31 @@ const FilterSidebar = () => {
       date: {
         from: new Date(),
         to: new Date(),
-      }, // Начальное состояние пустое, пользователь должен выбрать
+      },
+      useDate: false, // Новое поле для управления включением/выключением выбора даты
     },
   });
 
   const [selectedCount, setSelectedCount] = useState(0);
 
-  // Следим за изменениями в значениях формы и обновляем количество выбранных элементов
   useEffect(() => {
     const subscription = form.watch((value) => {
       setSelectedCount(value.items.length);
+      // Очищаем дату, если чекбокс отключен
     });
     return () => subscription.unsubscribe();
   }, [form]);
+
   function onSubmit(data: z.infer<typeof filterSchema>) {
     console.log(data);
   }
+  const isVisible = form.watch("useDate");
+  console.log(isVisible);
   return (
-    <SideBar className="w-full flex flex-col   self-start">
+    <SideBar className="w-full flex flex-col self-start">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <Accordion
-            className="border rounded-sm px-2 "
-            type="multiple"
-            collapsible
-          >
+          <Accordion className="border rounded-sm px-2" type="multiple">
             <AccordionItem value="item-1">
               <AccordionTrigger>Category</AccordionTrigger>
               <AccordionContent className="flex flex-col gap-4">
@@ -103,7 +98,29 @@ const FilterSidebar = () => {
 
             <AccordionItem className="border-none" value="item-2">
               <AccordionTrigger>Date</AccordionTrigger>
-              <AccordionContent className="flex items-center gap-2">
+              <AccordionContent className="flex flex-col gap-4">
+                <FormField
+                  control={form.control}
+                  name="useDate"
+                  render={({ field }) => (
+                    <FormItem className="flex items-center !space-y-0 gap-2">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={(checked) => {
+                            field.onChange(checked);
+                            // Очищаем дату при отключении чекбокса
+                            if (!checked) {
+                              form.setValue("date", { from: null, to: null });
+                            }
+                          }}
+                        />
+                      </FormControl>
+                      <FormLabel>Use Date</FormLabel>
+                    </FormItem>
+                  )}
+                />
+
                 <FormField
                   control={form.control}
                   name="date"
@@ -111,6 +128,7 @@ const FilterSidebar = () => {
                     <FormItem>
                       <FormControl>
                         <DatePickerWithRange
+                          disabled={!isVisible}
                           onSelect={field.onChange}
                           selected={field.value}
                         />
@@ -132,7 +150,7 @@ const FilterSidebar = () => {
                   form.reset();
                 }}
                 variant={"outline"}
-                className=" w-full"
+                className="w-full"
                 type="button"
               >
                 Clear
